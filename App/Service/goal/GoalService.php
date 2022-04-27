@@ -29,7 +29,6 @@ class GoalService implements GoalServiceInterface
      */
     public function getAll(): array|Generator
     {
-        echo "Hi From getAll() in GoalService Class";
-        $this->goalRepository->all();
+        return $this->goalRepository->all();
     }
 }

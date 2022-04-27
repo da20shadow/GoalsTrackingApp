@@ -3,10 +3,11 @@
 namespace App\Repositories\goals;
 
 use App\Models\goals\GoalDTO;
+use App\Repositories\goals\interfaces\GoalRepositoryInterface;
 use Database\interfaces\DatabaseInterface;
 use Generator;
 
-class GoalsRepository implements interfaces\GoalRepositoryInterface
+class GoalsRepository implements GoalRepositoryInterface
 {
 
     private DatabaseInterface $db;
@@ -34,20 +35,15 @@ class GoalsRepository implements interfaces\GoalRepositoryInterface
      */
     public function all(): array|Generator
     {
-        echo "<br>";
-        echo "Hello From all() in GoalsRepository class";
-        echo "<br>";
-
-        $result = $this->db->query(
+        return $this->db->query(
             "SELECT goal_id AS goalID,
-                        goal_title AS goalTitle,
-                        goal_description AS goalDescription,
-                        user_id AS userID
-                        FROM goals"
+                            goal_title AS goalTitle,
+                            goal_description AS goalDescription,
+                            due_date AS dueDate,
+                            user_id AS userID
+                            FROM goals"
         )->execute()
             ->fetch(GoalDTO::class);
-
-        return $result;
     }
 
 }

@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\user\UserHttpHandler;
+use App\Repositories\user\UserRepository;
+use App\Service\encryption\ArgonEncryptionService;
+use App\Service\user\UserService;
 use Core\Binder\DataBinder;
 use Core\Template\Template;
 use Database\PDODatabase;
@@ -22,3 +26,8 @@ try {
     throw new PDOException($err->getMessage());
 }
 $db = new PDODatabase($pdo);
+
+$userRepository = new UserRepository($db);
+$encryptionService = new ArgonEncryptionService();
+$userService = new UserService($userRepository, $encryptionService);
+$userHttpHandler = new UserHttpHandler($template, $dataBinder);

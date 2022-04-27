@@ -6,6 +6,7 @@ use Database\interfaces\ResultSetInterface;
 use Generator;
 use PDOStatement;
 
+
 class PDOResultSet implements ResultSetInterface
 {
     private PDOStatement $pdoStatement;
@@ -26,9 +27,9 @@ class PDOResultSet implements ResultSetInterface
     {
         while ($row = $this->pdoStatement->fetchObject($className)){
 
-            echo "<pre>";
-            var_dump($row);
-            echo "</pre>";
+//            echo "<pre>";
+//            var_dump($row);
+//            echo "</pre>";
 
             yield $row;
         }

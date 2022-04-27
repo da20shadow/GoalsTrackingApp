@@ -1,3 +1,13 @@
 <?php
 ?>
-<h1>Create Goal Page</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-1">
+            <?php include_once ('App/Templates/includes/left_navbar.php');?>
+        </div>
+        <div class="col-11">
+            <h1 class="text-center">Create Goal Page</h1>
+        </div>
+    </div>
+</div>

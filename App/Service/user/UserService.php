@@ -18,7 +18,7 @@ class UserService implements UserServiceInterface
      * @param EncryptionInterface $encryptionService
      */
     public function __construct(UserRepositoryInterface $userRepository,
-                                EncryptionInterface $encryptionService)
+                                EncryptionInterface     $encryptionService)
     {
         $this->userRepository = $userRepository;
         $this->encryptionService = $encryptionService;
@@ -27,7 +27,16 @@ class UserService implements UserServiceInterface
 
     public function register(UserDTO $userDTO, string $confirmPassword): bool
     {
-        // TODO: Implement register() method.
+        if ($userDTO->getPassword() !== $confirmPassword){
+            return false;
+        }
+
+        if (null !== $this->userRepository->findUserByUsername($userDTO->getUsername())){
+            return false;
+        }
+
+        $this->encryptPassword($userDTO);
+        return $this->userRepository->insert($userDTO);
     }
 
     public function login(string $username, string $password): ?UserDTO
@@ -56,5 +65,12 @@ class UserService implements UserServiceInterface
     public function getAll(): array|Generator
     {
         return $this->userRepository->getAll();
+    }
+
+    private function encryptPassword(UserDTO $userDTO)
+    {
+        $plainPassword = $userDTO->getPassword();
+        $passwordHash = $this->encryptionService->hash($plainPassword);
+        $userDTO->setPassword($passwordHash);
     }
 }

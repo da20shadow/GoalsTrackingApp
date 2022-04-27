@@ -4,6 +4,6 @@ require_once ("common.php");
 
 siteHeader("Register");
 
-$userHttpHandler->register($userService);
+$userHttpHandler->register();
 
-siteFooter("registerPage/scriptForRegisterPage");
+siteFooter("user/userFormsValidation");

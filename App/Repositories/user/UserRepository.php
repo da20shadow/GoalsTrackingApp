@@ -22,7 +22,19 @@ class UserRepository implements UserRepositoryInterface
 
     public function insert(UserDTO $userDTO): bool
     {
-        // TODO: Implement insert() method.
+        $this->db->query(
+            "INSERT INTO users (username,email,password,first_name,last_name)
+                            VALUES (:username,:email,:password,:first_name,:last_name)"
+        )->execute(
+            array(
+                ":username" => $userDTO->getUsername(),
+                ":email" => $userDTO->getEmail(),
+                ":password" => $userDTO->getPassword(),
+                ":first_name" => $userDTO->getFirstName(),
+                ":last_name" => $userDTO->getLastName()
+            )
+        );
+        return true;
     }
 
     public function update(int $id, UserDTO $userDTO): bool
@@ -37,7 +49,19 @@ class UserRepository implements UserRepositoryInterface
 
     public function findUserByUsername(string $username): ?UserDTO
     {
-        // TODO: Implement findUserByUsername() method.
+        return $this->db->query(
+            "SELECT id,
+                            username,
+                            email,
+                            password,
+                            first_name AS firstName,
+                            last_name AS lastName
+                            FROM users
+                            WHERE username = :username"
+        )->execute(array(
+            ":username" => $username
+        ))->fetch(UserDTO::class)
+            ->current();
     }
 
     public function findUserById(int $id): ?UserDTO

@@ -9,7 +9,7 @@ class DataBinder implements DataBinderInterface
      * @param $className
      * @return mixed
      */
-    public function bind($formData, $className)
+    public function bind($formData, $className): mixed
     {
         $object = new $className();
 
