@@ -1,22 +1,30 @@
 <?php
 namespace App\Http\interfaces;
 
+use Core\Binder\DataBinder;
 use Core\Binder\DataBinderInterface;
+use Core\Template\Template;
 use Core\Template\TemplateInterface;
+use JetBrains\PhpStorm\Pure;
 
 abstract class BaseHttpHandler
 {
     private TemplateInterface $template;
     protected DataBinderInterface $dataBinder;
 
-    /**
-     * @param TemplateInterface $template
-     * @param DataBinderInterface $dataBinder
-     */
-    public function __construct(TemplateInterface $template, DataBinderInterface $dataBinder)
+
+    #[Pure] public function __construct()
     {
-        $this->template = $template;
-        $this->dataBinder = $dataBinder;
+        $this->template = new Template();
+        $this->dataBinder = new DataBinder();
+    }
+
+    /**
+     * @return DataBinderInterface
+     */
+    protected function getDataBinder(): DataBinderInterface
+    {
+        return $this->dataBinder;
     }
 
     public function render(string $templateName, $data = null, $error = null): void

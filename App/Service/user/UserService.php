@@ -4,8 +4,14 @@ namespace App\Service\user;
 
 use App\Models\users\UserDTO;
 use App\Repositories\user\interfaces\UserRepositoryInterface;
+use App\Repositories\user\UserRepository;
+use App\Service\encryption\ArgonEncryptionService;
 use App\Service\encryption\interfaces\EncryptionInterface;
+use Database\PDODatabase;
 use Generator;
+use JetBrains\PhpStorm\Pure;
+use PDO;
+use PDOException;
 
 class UserService implements UserServiceInterface
 {
@@ -13,15 +19,23 @@ class UserService implements UserServiceInterface
     private UserRepositoryInterface $userRepository;
     private EncryptionInterface $encryptionService;
 
-    /**
-     * @param UserRepositoryInterface $userRepository
-     * @param EncryptionInterface $encryptionService
-     */
-    public function __construct(UserRepositoryInterface $userRepository,
-                                EncryptionInterface     $encryptionService)
+    public function __construct()
     {
-        $this->userRepository = $userRepository;
-        $this->encryptionService = $encryptionService;
+        $dbInfo = parse_ini_file('Config/db.ini');
+        $pdo = null;
+        try {
+
+            $pdo = new PDO($dbInfo['dsn'],$dbInfo['user'],$dbInfo['pass']);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        }catch (PDOException $err){
+            echo $err->getMessage();
+            throw new PDOException($err->getMessage());
+        }
+        $db = new PDODatabase($pdo);
+
+        $this->userRepository = new UserRepository($db);
+        $this->encryptionService = new ArgonEncryptionService();
     }
 
 
@@ -36,6 +50,7 @@ class UserService implements UserServiceInterface
         }
 
         $this->encryptPassword($userDTO);
+
         return $this->userRepository->insert($userDTO);
     }
 
