@@ -92,6 +92,18 @@ class UserDTO
      */
     public function setUsername(string $username): UserDTO
     {
+        $username = trim($username);
+        $username = htmlspecialchars($username);
+        $username = stripcslashes($username);
+
+        if (strlen($username) < 4){
+            throw new \Exception("Username must be at least 4 characters!");
+        }else if (strlen($username) > 40){
+            throw new \Exception("Username is too long, max allowed 40 characters!");
+        }else if (!preg_match("/^[a-zA-Z]+[a-zA-Z0-9_]{3,}$/",$username)){
+            throw new \Exception("Invalid chars in Username! Allowed a-Z 0-9 and '_' only!");
+        }
+
         $this->username = $username;
         return $this;
     }

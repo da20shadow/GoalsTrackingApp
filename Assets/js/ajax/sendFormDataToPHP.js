@@ -14,6 +14,14 @@ function sendFormDataToPHP(url,data,notificationID = 'NO',redirect = "NO"){
         .then(function (returnedPHPData){
             if (notificationID !== 'NO'){
                 console.log("This is the notification Element ID Where will show message: " + notificationID)
+
+                if (returnedPHPData.indexOf("Success") >= 0){
+                    let print = "<h5 class='text-success text-center'>" + returnedPHPData + "</h5>";
+                    document.getElementById(notificationID).innerHTML = print;
+                }else{
+                    let print = "<h5 class='text-danger text-center'>" + returnedPHPData + "</h5>";
+                    document.getElementById(notificationID).innerHTML = print;
+                }
             }
             //Check if returned message contains word 'Success'
             if (returnedPHPData.indexOf('Success') >= 0){

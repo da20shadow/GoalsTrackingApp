@@ -9,6 +9,6 @@ require_once ("common.php");
 
 siteHeader("Members");
 
-$userHttpHandler->all($userService);
+$userHttpHandler->all();
 
 siteFooter("loginPage/scriptForLoginPage");

@@ -1,17 +1,19 @@
 <?php
+
 namespace App\Http\interfaces;
+
+spl_autoload_register();
 
 use Core\Binder\DataBinder;
 use Core\Binder\DataBinderInterface;
-use Core\Template\Template;
 use Core\Template\TemplateInterface;
 use JetBrains\PhpStorm\Pure;
+use Core\Template\Template;
 
 abstract class BaseHttpHandler
 {
     private TemplateInterface $template;
     protected DataBinderInterface $dataBinder;
-
 
     #[Pure] public function __construct()
     {

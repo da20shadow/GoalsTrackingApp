@@ -7,7 +7,7 @@ use Generator;
 
 interface UserServiceInterface
 {
-    public function register(UserDTO $userDTO, string $confirmPassword) : bool;
+    public function register(UserDTO $userDTO, string $confirmPassword) : string;
     public function login(string $username, string $password) : ?UserDTO;
     public function currentUser() : ?UserDTO;
     public function isLogged() : bool;

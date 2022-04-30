@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Service\encryption;
+require_once ("interfaces/EncryptionInterface.php");
 
 use App\Service\encryption\interfaces\EncryptionInterface;
 

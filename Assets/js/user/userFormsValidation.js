@@ -1,4 +1,3 @@
-// import {ErrorMessages} from "../errorMessages";
 const VALID_FIELD = "Looks OK!";
 const EMPTY_USERNAME = "Please, enter username!";
 const TOO_SHORT_USERNAME = "Too Short (min 4 chars)!";
@@ -22,7 +21,43 @@ let isRePasswordValid = false;
 
 //Show OR Hide Reg Button If All Inputs Are Valid
 function checkAllInputs(){
-    regBtn.disabled = !(isFirstnameValid && isLastnameValid && isUsernameValid && isEmailValid && isPasswordValid && isRePasswordValid);
+
+    let regForm = document.getElementById('regForm');
+    let regFormData = new FormData(regForm);
+
+    let firstName = regFormData.get('first_name');
+    let lastName = regFormData.get('last_name');
+    let username = regFormData.get('username');
+    let email = regFormData.get('email');
+    let password = regFormData.get('password');
+    let rePassword = regFormData.get('confirm_password');
+
+    if (isFirstnameValid === undefined){
+        validateFirstname(firstName);
+    }
+    if (isLastnameValid === undefined){
+        validateLastname(lastName)
+    }
+    if (isUsernameValid === undefined ){
+        validateUsername(username)
+    }
+    if (isEmailValid === undefined){
+        validateEmail(email)
+    }
+    if (isPasswordValid === undefined){
+        validatePassword(password)
+    }
+    if (isRePasswordValid === undefined){
+        validateRePassword(rePassword)
+    }
+
+     if (isFirstnameValid && isLastnameValid && isUsernameValid && isEmailValid && isPasswordValid && isRePasswordValid){
+         regBtn.disabled = false;
+         return true;
+     }else {
+         regBtn.disabled = true;
+         return false;
+     }
 }
 
 //Match Pattern

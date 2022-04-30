@@ -2,6 +2,17 @@
 
 namespace App\Repositories\user;
 
+spl_autoload_register(function ($class){
+    $base = $_SERVER['DOCUMENT_ROOT'];
+    $path = explode('_',$class);
+    $class = (implode('/',$path));
+
+    $file = $base . DIRECTORY_SEPARATOR . $class . '.php';
+    if (file_exists($file)){
+        include_once $file;
+    }
+});
+
 use App\Models\users\UserDTO;
 use App\Repositories\user\interfaces\UserRepositoryInterface;
 use Database\interfaces\DatabaseInterface;
@@ -20,21 +31,25 @@ class UserRepository implements UserRepositoryInterface
     }
 
 
-    public function insert(UserDTO $userDTO): bool
+    public function insert(UserDTO $userDTO): string
     {
-        $this->db->query(
-            "INSERT INTO users (username,email,password,first_name,last_name)
+        try {
+            $this->db->query(
+                "INSERT INTO users (username,email,password,first_name,last_name)
                             VALUES (:username,:email,:password,:first_name,:last_name)"
-        )->execute(
-            array(
-                ":username" => $userDTO->getUsername(),
-                ":email" => $userDTO->getEmail(),
-                ":password" => $userDTO->getPassword(),
-                ":first_name" => $userDTO->getFirstName(),
-                ":last_name" => $userDTO->getLastName()
-            )
-        );
-        return true;
+            )->execute(
+                array(
+                    ":username" => $userDTO->getUsername(),
+                    ":email" => $userDTO->getEmail(),
+                    ":password" => $userDTO->getPassword(),
+                    ":first_name" => $userDTO->getFirstName(),
+                    ":last_name" => $userDTO->getLastName()
+                )
+            );
+            return "Successfully Registered!";
+        }catch (\PDOException $exception){
+            return "Error Occur! " . $exception->getMessage();
+        }
     }
 
     public function update(int $id, UserDTO $userDTO): bool
@@ -67,6 +82,23 @@ class UserRepository implements UserRepositoryInterface
     public function findUserById(int $id): ?UserDTO
     {
         // TODO: Implement findUserById() method.
+    }
+
+    public function findUserByEmail(string $email): ?UserDTO
+    {
+        return $this->db->query(
+            "SELECT id,
+                            username,
+                            email,
+                            password,
+                            first_name AS firstName,
+                            last_name AS lastName
+                            FROM users
+                            WHERE email = :email"
+        )->execute(array(
+            ":email" => $email
+        ))->fetch(UserDTO::class)
+            ->current();
     }
 
     /**

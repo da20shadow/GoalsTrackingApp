@@ -2,51 +2,54 @@
 
 namespace App\Service\user;
 
+spl_autoload_register(function ($class){
+    $base = $_SERVER['DOCUMENT_ROOT'];
+    $path = explode('_',$class);
+    $class = (implode('/',$path));
+
+    $file = $base . DIRECTORY_SEPARATOR . $class . '.php';
+    if (file_exists($file)){
+        include_once $file;
+    }
+});
+
 use App\Models\users\UserDTO;
 use App\Repositories\user\interfaces\UserRepositoryInterface;
 use App\Repositories\user\UserRepository;
 use App\Service\encryption\ArgonEncryptionService;
 use App\Service\encryption\interfaces\EncryptionInterface;
+use Database\Connect;
 use Database\PDODatabase;
 use Generator;
-use JetBrains\PhpStorm\Pure;
-use PDO;
-use PDOException;
 
 class UserService implements UserServiceInterface
 {
 
     private UserRepositoryInterface $userRepository;
     private EncryptionInterface $encryptionService;
+    private PDODatabase $db;
 
     public function __construct()
     {
-        $dbInfo = parse_ini_file('Config/db.ini');
-        $pdo = null;
-        try {
-
-            $pdo = new PDO($dbInfo['dsn'],$dbInfo['user'],$dbInfo['pass']);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        }catch (PDOException $err){
-            echo $err->getMessage();
-            throw new PDOException($err->getMessage());
-        }
-        $db = new PDODatabase($pdo);
-
-        $this->userRepository = new UserRepository($db);
+        $conn = new Connect();
+        $this->db = $conn::connect();
+        $this->userRepository = new UserRepository($this->db);
         $this->encryptionService = new ArgonEncryptionService();
     }
 
 
-    public function register(UserDTO $userDTO, string $confirmPassword): bool
+    public function register(UserDTO $userDTO, string $confirmPassword): string
     {
         if ($userDTO->getPassword() !== $confirmPassword){
-            return false;
+            return "Error! Passwords doesn't match!";
         }
 
         if (null !== $this->userRepository->findUserByUsername($userDTO->getUsername())){
-            return false;
+            return "Error! This Username Already Registered!";
+        }
+
+        if (null !== $this->userRepository->findUserByEmail($userDTO->getEmail())){
+            return "Error! This Email Already Registered!";
         }
 
         $this->encryptPassword($userDTO);
@@ -56,7 +59,15 @@ class UserService implements UserServiceInterface
 
     public function login(string $username, string $password): ?UserDTO
     {
-        // TODO: Implement login() method.
+        $userFormDB = $this->userRepository->findUserByUsername($username);
+
+        if (null === $userFormDB){
+            return null;
+        }
+        if (false === $this->encryptionService->verify($password,$userFormDB->getPassword())){
+            return null;
+        }
+        return $userFormDB;
     }
 
     public function currentUser(): ?UserDTO

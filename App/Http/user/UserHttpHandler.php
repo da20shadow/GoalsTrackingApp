@@ -2,7 +2,17 @@
 
 namespace App\Http\user;
 
-use App\Http\interfaces\BaseHttpHandler;
+spl_autoload_register(function ($class){
+    $base = $_SERVER['DOCUMENT_ROOT'];
+    $path = explode('_',$class);
+    $class = (implode('/',$path));
+
+    $file = $base . DIRECTORY_SEPARATOR . $class . '.php';
+    if (file_exists($file)){
+        include_once $file;
+    }
+});
+
 use App\Models\errors\ErrorDTO;
 use App\Models\users\UserDTO;
 use App\Service\user\UserService;
@@ -11,16 +21,17 @@ use Core\Binder\DataBinder;
 use Core\Binder\DataBinderInterface;
 use Core\Template\Template;
 use Core\Template\TemplateInterface;
-use JetBrains\PhpStorm\Pure;
 
 class UserHttpHandler
 {
     private TemplateInterface $template;
+    private UserServiceInterface $userService;
     protected DataBinderInterface $dataBinder;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->template = new Template();
+        $this->userService = new UserService();
         $this->dataBinder = new DataBinder();
     }
 
@@ -42,12 +53,12 @@ class UserHttpHandler
         header("Location: $url");
     }
 
-    public function index(UserServiceInterface $userService)
+    public function index()
     {
         $this->render('home/index');
     }
 
-    public function login(UserServiceInterface $userService)
+    public function login()
     {
         $this->render('user/login');
     }
@@ -57,27 +68,43 @@ class UserHttpHandler
         $this->render('user/register');
     }
 
-    public function all(UserServiceInterface $userService)
+    public function all()
     {
-        $this->render('user/all', $userService->getAll());
+        $this->render('user/all', $this->userService->getAll());
     }
 
     public function processRegistration($formData) : string
     {
         $userService = new UserService();
-        $user = $this->getDataBinder()->bind($formData, UserDTO::class);
 
-        if ($userService->register($user,$formData['confirm_password'])){
-            return "Successfully Registered!";
-        }else{
-            return "Error!";
+        try {
+            $user = $this->getDataBinder()->bind($formData, UserDTO::class);
+        }catch (\Exception $exception){
+            return $exception->getMessage();
         }
+
+        return $userService->register($user,$formData['confirm_password']);
 //        if ($userService->register($user, $formData['confirm_password'])){
 //            $this->redirect("login.php");
 //        }else {
 //            $this->render("users/register",null,
 //                new ErrorDTO("Password mismatch."));
 //        }
+    }
+
+    public function processLogin($formData){
+
+        $user = $this->userService->login($formData['username'],$formData['password']);
+
+        $currentUser = $this->dataBinder->bind($formData,UserDTO::class);
+
+        if (null !== $user){
+            $_SESSION['id'] = $user->getId();
+            $this->redirect('account.php');
+        }else{
+            $this->render('user/login',$currentUser,
+                new ErrorDTO("Username not exist or password mismatch!"));
+        }
     }
 
 

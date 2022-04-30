@@ -1,5 +1,4 @@
-<?php /** @var ErrorDTO $error */
-
+<?php
 use App\Models\errors\ErrorDTO;
 
 $namesPattern = "^([A-Z][a-z]+)$";
@@ -9,16 +8,14 @@ $emailPattern = "^([a-z]+[a-zA-Z0-9_]+[@]+[a-z]{3,15}[.]+[a-z]{2,3})$";
 ?>
 <div class="container">
 
-    <?php if ($error):?>
-    <h3 class="text-center text-danger"><?= $error->getMessage() ?></h3>
-    <?php endif; ?>
-
     <div class="row">
         <div class="col-1">
             <?php include_once ('App/Templates/includes/left_navbar.php');?>
         </div>
         <div class="col-11">
             <h1 class="text-center my-4">Register</h1>
+
+            <div id="message"></div>
 
             <form method="post" id="regForm" class="was-validated w-75 m-auto">
 

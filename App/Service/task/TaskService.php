@@ -13,11 +13,11 @@ class TaskService implements TaskServiceInterface
     private TaskRepositoryInterface $taskRepository;
 
     /**
-     * @param TaskRepositoryInterface $userRepository
+     * @param TaskRepositoryInterface $taskRepository
      */
-    public function __construct(TaskRepositoryInterface $userRepository)
+    public function __construct(TaskRepositoryInterface $taskRepository)
     {
-        $this->taskRepository = $userRepository;
+        $this->taskRepository = $taskRepository;
     }
 
     public function create(TaskDTO $taskDTO): bool

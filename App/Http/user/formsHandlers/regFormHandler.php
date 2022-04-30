@@ -1,8 +1,18 @@
 <?php
-spl_autoload_register();
-use App\Http\user\UserHttpHandler;
+namespace App\Http\user\formsHandlers;
 
-$userHttpHandler = new UserHttpHandler();
+spl_autoload_register(function ($class){
+    $base = $_SERVER['DOCUMENT_ROOT'];
+    $path = explode('_',$class);
+    $class = (implode('/',$path));
+
+    $file = $base . DIRECTORY_SEPARATOR . $class . '.php';
+    if (file_exists($file)){
+        include_once $file;
+    }
+});
+
+use App\Http\user\UserHttpHandler;
 
 if (isset($_POST['first_name']) && isset($_POST['last_name'])
     && isset($_POST['username']) && isset($_POST['email'])
@@ -22,6 +32,6 @@ if (isset($_POST['first_name']) && isset($_POST['last_name'])
         "password" => $password,
         "confirm_password" => $confirmPassword];
 
+    $userHttpHandler = new UserHttpHandler();
     echo $userHttpHandler->processRegistration($userInfo);
-
 }
