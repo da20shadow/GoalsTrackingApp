@@ -38,10 +38,6 @@ class PDOResultSet implements ResultSetInterface
     {
         while ($row = $this->pdoStatement->fetchObject($className)){
 
-//            echo "<pre>";
-//            var_dump($row);
-//            echo "</pre>";
-
             yield $row;
         }
     }

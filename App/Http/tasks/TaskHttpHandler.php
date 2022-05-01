@@ -16,5 +16,14 @@ class TaskHttpHandler extends BaseHttpHandler
         $this->render('task/all_tasks',$taskService->getAll());
     }
 
+    public function createTask(array $formData = []){
+
+        if (isset($formData['title']) && isset($formData['description'])
+        && isset($formData['due_date'])){
+
+        }else {
+            $this->render('task/_create_task');
+        }
+    }
 
 }

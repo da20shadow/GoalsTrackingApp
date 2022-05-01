@@ -72,12 +72,18 @@ class UserService implements UserServiceInterface
 
     public function currentUser(): ?UserDTO
     {
-        // TODO: Implement currentUser() method.
+        if (empty($_SESSION['id'])){
+            return null;
+        }
+        return $this->userRepository->findUserById(intval($_SESSION['id']));
     }
 
     public function isLogged(): bool
     {
-        // TODO: Implement isLogged() method.
+        if(!$this->currentUser()){
+            return false;
+        }
+        return true;
     }
 
     public function edit(UserDTO $userDTO): bool

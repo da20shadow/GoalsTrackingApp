@@ -15,17 +15,17 @@ spl_autoload_register(function ($class){
 
 use App\Models\users\UserDTO;
 use App\Repositories\user\interfaces\UserRepositoryInterface;
-use Database\interfaces\DatabaseInterface;
+use Database\PDODatabase;
 use Generator;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private DatabaseInterface $db;
+    private PDODatabase $db;
 
     /**
-     * @param DatabaseInterface $db
+     * @param PDODatabase $db
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(PDODatabase $db)
     {
         $this->db = $db;
     }
@@ -81,7 +81,19 @@ class UserRepository implements UserRepositoryInterface
 
     public function findUserById(int $id): ?UserDTO
     {
-        // TODO: Implement findUserById() method.
+        return $this->db->query(
+            "SELECT id,
+                            username,
+                            email,
+                            password,
+                            first_name AS firstName,
+                            last_name AS lastName
+                            FROM users
+                            WHERE id = :id"
+        )->execute(array(
+            ":id" => $id
+        ))->fetch(UserDTO::class)
+            ->current();
     }
 
     public function findUserByEmail(string $email): ?UserDTO

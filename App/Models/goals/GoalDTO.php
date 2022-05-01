@@ -8,16 +8,57 @@ class GoalDTO
     private string $goalTitle;
     private string $goalDescription;
     private $dueDate;
+    private int $progress;
+    private int $completed;
     private int $userID;
 
-    public static function create($goalTitle, $goalDescription, $dueDate, $userID, $goalID = null): GoalDTO
+    public static function create($goalTitle, $goalDescription, $dueDate,
+                                  $userID,$progress = 0,$completed = 0, $goalID = null): GoalDTO
     {
         return (new GoalDTO())
             ->setGoalTitle($goalTitle)
             ->setGoalDescription($goalDescription)
             ->setDueDate($dueDate)
+            ->setProgress($progress)
+            ->setCompleted($completed)
             ->setUserID($userID)
             ->setGoalID($goalID);
+    }
+
+    /**
+     * @return int
+     */
+    public function getProgress(): int
+    {
+        return $this->progress;
+    }
+
+    /**
+     * @param int $progress
+     * @return GoalDTO
+     */
+    public function setProgress(int $progress): GoalDTO
+    {
+        $this->progress = $progress;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCompleted(): int
+    {
+        return $this->completed;
+    }
+
+    /**
+     * @param int $completed
+     * @return GoalDTO
+     */
+    public function setCompleted(int $completed): GoalDTO
+    {
+        $this->completed = $completed;
+        return $this;
     }
 
     /**

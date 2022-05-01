@@ -60,12 +60,36 @@ class UserHttpHandler
 
     public function login()
     {
-        $this->render('user/login');
+        if ($this->userService->isLogged()){
+            $this->redirect("account.php");
+        }else {
+            $this->render('user/login');
+        }
     }
 
     public function register()
     {
         $this->render('user/register');
+    }
+
+    public function account(){
+
+        if ($this->userService->isLogged()){
+            $this->render('user/account',$this->userService->currentUser());
+        }else {
+            $this->redirect("login.php");
+        }
+
+    }
+
+    public function editProfile(array $formData = []){
+
+        if ($this->userService->isLogged()){
+            $this->render('user/_edit_profile',$formData);
+        }else {
+            $this->redirect("login.php");
+        }
+
     }
 
     public function all()
@@ -92,18 +116,20 @@ class UserHttpHandler
 //        }
     }
 
-    public function processLogin($formData){
-
+    public function processLogin($formData): string
+    {
         $user = $this->userService->login($formData['username'],$formData['password']);
 
-        $currentUser = $this->dataBinder->bind($formData,UserDTO::class);
+        $currentUser = $this->dataBinder->bind($user, UserDTO::class);
 
         if (null !== $user){
             $_SESSION['id'] = $user->getId();
-            $this->redirect('account.php');
+            return "Successfully Logged in user id = " . $_SESSION['id'];
+//           $this->redirect("account.php");
         }else{
-            $this->render('user/login',$currentUser,
-                new ErrorDTO("Username not exist or password mismatch!"));
+            return "Error!";
+//            $this->render("user/login",$currentUser,
+//            new ErrorDTO("Wrong username or password!"));
         }
     }
 

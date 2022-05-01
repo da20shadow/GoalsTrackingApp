@@ -2,6 +2,8 @@
 
 namespace App\Http\user\formsHandlers;
 
+session_start();
+
 spl_autoload_register(function ($class) {
     $base = $_SERVER['DOCUMENT_ROOT'];
     $path = explode('_', $class);
@@ -14,6 +16,9 @@ spl_autoload_register(function ($class) {
 });
 
 use App\Http\user\UserHttpHandler;
+use App\Models\users\UserDTO;
+use App\Service\user\UserService;
+use Core\Binder\DataBinder;
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
 

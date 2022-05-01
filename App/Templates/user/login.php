@@ -9,28 +9,35 @@
         <div class="col-11">
             <h1 class="text-center">Login</h1>
 
-            <form class="row g-3 justify-content-center">
+            <div id="message"></div>
 
-                <div class="col-8 col-lg-4">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control is-valid"
-                           id="username" name="username"
-                           placeholder="Username" required>
-                    <div class="valid-feedback">
-                        Looks good!
+            <form method="post" id="loginForm" class="was-validated w-75 m-auto">
+
+                    <div class="col-12 col-md-6 mb-3">
+
+                        <label>Username:
+                            <input onchange="validateUsername(this.value)" name="username" type="text"
+                                   placeholder="Username" pattern="<?php echo $usernamePattern; ?>"
+                                   class="form-control is-invalid" required>
+                            <div id="usernameMessage" class="invalid-feedback"></div>
+                        </label>
+
                     </div>
-                </div>
 
-                <div class="col-8 col-lg-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control is-valid"
-                           id="password" name="password"
-                           placeholder="Password" required>
-                    <div class="valid-feedback">
-                        Looks good!
+                    <div class="col-12 col-md-6 mb-3">
+
+                        <label>Password:
+                            <input onkeyup="validatePassword(this.value)" id="password" name="password"
+                                   type="password" placeholder="Password" pattern="<?php echo $passwordPattern; ?>"
+                                   class="form-control is-invalid" required>
+                            <div id="passwordMessage" class="invalid-feedback"></div>
+                        </label>
+
                     </div>
-                </div>
 
+                <div class="mb-3">
+                    <button id="loginBtn" class="btn btn-primary" type="submit" >Login</button>
+                </div>
             </form>
 
         </div>

@@ -9,8 +9,8 @@ $taskRepository = new \App\Repositories\tasks\TaskRepository($db);
 $taskService = new \App\Service\task\TaskService($taskRepository);
 $taskHttpHandler = new TaskHttpHandler();
 
-siteHeader("Tasks");
+siteHeader("Create New Task");
 
-$taskHttpHandler->all($taskService);
+$taskHttpHandler->createTask();
 
-siteFooter();
+siteFooter("task/getTaskFormData","ajax/sendFormDataToPHP");

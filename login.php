@@ -5,4 +5,5 @@ siteHeader("Login");
 
 $userHttpHandler->login();
 
-siteFooter("loginPage/scriptForLoginPage");
+siteFooter("user/getLoginFormData",
+    "ajax/sendFormDataToPHP");

@@ -40,6 +40,8 @@ class GoalsRepository implements GoalRepositoryInterface
                             goal_title AS goalTitle,
                             goal_description AS goalDescription,
                             due_date AS dueDate,
+                            progress,
+                            completed,
                             user_id AS userID
                             FROM goals"
         )->execute()

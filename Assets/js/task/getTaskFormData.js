@@ -1,14 +1,14 @@
-const loginForm = document.getElementById('loginForm');
+const taskForm = document.getElementById('taskForm');
 
-loginForm.addEventListener('submit',function (event){
+taskForm.addEventListener('submit',function (event){
     event.preventDefault();
 
     const formData = new FormData(this);
 
     // const url = "register.php";
-    const url = "App/Http/user/formsHandlers/loginFormHandler.php";
+    const url = "App/Http/tasks/taskFormHandler.php";
 
-    sendFormDataToPHP(url,formData,"message","account.php");
+    sendFormDataToPHP(url,formData,"message");
 
     // if (checkAllInputs()){
     //     sendFormDataToPHP(url,formData,"message");
