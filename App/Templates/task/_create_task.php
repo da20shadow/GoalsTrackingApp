@@ -7,7 +7,7 @@
     <form method="post" id="taskForm"
           class="was-validated w-75 m-auto shadow-lg p-4 mt-5">
 
-        <h2 class="text-center text-primary my-2">Create New Task.</h2>
+        <h2 class="text-center text-secondary fw-bold my-2">Create New Task.</h2>
 
         <div class="mb-3">
             <label for="title" class="form-label">Task title</label>

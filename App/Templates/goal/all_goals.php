@@ -7,8 +7,8 @@ use App\Models\goals\GoalDTO;
 
 <div class="container">
 
-    <h1 class="text-center">Category: Goals CATEGORY NAME!</h1>
-    <h3 class="text-center">CATEGORY NAME Goals:</h3>
+    <h1 class="text-center text-secondary fw-bold my-4">Category: Goals CATEGORY NAME!</h1>
+    <h3 class="text-center text-secondary fw-bold my-4">CATEGORY NAME Goals:</h3>
 
     <button onclick="location.href='create_goal.php'" class="btn shadow-sm border d-flex m-auto">Create New Goal</button>
 
@@ -24,12 +24,12 @@ use App\Models\goals\GoalDTO;
                 $daysLeft = "Overdue";
             }
         ?>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-6">
 
                 <div class="card my-3 shadow-sm">
 
                     <div class="card-header">
-                        <h5 class="card-title text-center text-dark fw-bold"><?= $goal->getGoalTitle() ?></h5>
+                        <h5 class="card-title text-center text-secondary fw-bold"><?= $goal->getGoalTitle() ?></h5>
                     </div>
 
                     <div class="card-body">
