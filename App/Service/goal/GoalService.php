@@ -24,6 +24,17 @@ class GoalService implements GoalServiceInterface
         // TODO: Implement create() method.
     }
 
+    public function getGoalID($id): ?GoalDTO
+    {
+        $goal_id = $id['id'];
+        return $this->goalRepository->findGoalById($goal_id);
+    }
+
+    public function getTasksByGoalID($goal_id): array|Generator
+    {
+        return $this->goalRepository->findTasksByGoalID($goal_id);
+    }
+
     /**
      * @inheritDoc
      */

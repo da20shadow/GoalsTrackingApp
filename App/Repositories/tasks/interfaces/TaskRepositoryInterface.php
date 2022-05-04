@@ -10,7 +10,7 @@ interface TaskRepositoryInterface
     public function insert(TaskDTO $taskDTO) : bool;
     public function update(int $id, TaskDTO $taskDTO) : bool;
     public function delete(int $id) : bool;
-    public function findUserById(int $id) : ?TaskDTO;
+    public function findTaskByID(int $id) : ?TaskDTO;
 
     /**
      * @return Generator|TaskDTO[]

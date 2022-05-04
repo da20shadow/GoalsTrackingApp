@@ -30,6 +30,15 @@ class TaskService implements TaskServiceInterface
         // TODO: Implement edit() method.
     }
 
+    public function getTaskByID($task_id){
+        return $this->taskRepository->findTaskByID($task_id);
+    }
+
+    public function getSubTasksByTaskID($task_id): array|Generator
+    {
+        return $this->taskRepository->findSubTasksByTaskID($task_id);
+    }
+
     /**
      * @inheritDoc
      */

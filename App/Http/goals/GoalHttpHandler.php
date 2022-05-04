@@ -13,4 +13,8 @@ class GoalHttpHandler extends BaseHttpHandler
     public function all(GoalServiceInterface $goalService){
         $this->render('goal/all_goals',$goalService->getAll());
     }
+
+    public function goalID(GoalServiceInterface $goalService,array $id){
+        $this->render('goal/_goal',$goalService->getGoalID($id));
+    }
 }

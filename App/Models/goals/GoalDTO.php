@@ -13,7 +13,8 @@ class GoalDTO
     private int $userID;
 
     public static function create($goalTitle, $goalDescription, $dueDate,
-                                  $userID,$progress = 0,$completed = 0, $goalID = null): GoalDTO
+                                  int $userID, int $progress = 0, int $completed = 0,
+                                  $goalID = null): GoalDTO
     {
         return (new GoalDTO())
             ->setGoalTitle($goalTitle)
