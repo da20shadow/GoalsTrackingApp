@@ -12,11 +12,12 @@ class SubtaskDTO
     private int $completed;
     private int $taskID;
     private int $parentID;
+    private int $totalSubtasks;
 
     public function create(string $subTaskTitle,
                                 string $subTaskDescription, $dueDate, int $progress = 0,
                                 int $completed = 0, int $taskID = 0, int $parentID = 0,
-                                int $subTaskID = 0)
+                                int $subTaskID = 0, int $totalSubtasks = 0): SubtaskDTO
     {
         return (new SubtaskDTO())
             ->setSubTaskID($subTaskID)
@@ -26,7 +27,26 @@ class SubtaskDTO
             ->setProgress($progress)
             ->setCompleted($completed)
             ->setTaskID($taskID)
-            ->setParentID($parentID);
+            ->setParentID($parentID)
+            ->setTotalSubtasks($totalSubtasks);
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalSubtasks(): int
+    {
+        return $this->totalSubtasks;
+    }
+
+    /**
+     * @param int $totalSubtasks
+     * @return SubtaskDTO
+     */
+    public function setTotalSubtasks(int $totalSubtasks): SubtaskDTO
+    {
+        $this->totalSubtasks = $totalSubtasks;
+        return $this;
     }
 
 

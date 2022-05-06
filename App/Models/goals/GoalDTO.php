@@ -10,11 +10,13 @@ class GoalDTO
     private $dueDate;
     private int $progress;
     private int $completed;
+    private int $totalTasks;
     private int $userID;
+    private $createdOn;
 
     public static function create($goalTitle, $goalDescription, $dueDate,
                                   int $userID, int $progress = 0, int $completed = 0,
-                                  $goalID = null): GoalDTO
+                                  $totalTasks = 0, $goalID = null, $createdOn = null): GoalDTO
     {
         return (new GoalDTO())
             ->setGoalTitle($goalTitle)
@@ -22,8 +24,45 @@ class GoalDTO
             ->setDueDate($dueDate)
             ->setProgress($progress)
             ->setCompleted($completed)
+            ->setTotalTasks($totalTasks)
             ->setUserID($userID)
-            ->setGoalID($goalID);
+            ->setGoalID($goalID)
+            ->setCreatedOn($createdOn);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
+
+    /**
+     * @param mixed $createdOn
+     */
+    public function setCreatedOn($createdOn): GoalDTO
+    {
+        $this->createdOn = $createdOn;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalTasks(): int
+    {
+        return $this->totalTasks;
+    }
+
+    /**
+     * @param int $totalTasks
+     * @return GoalDTO
+     */
+    public function setTotalTasks(int $totalTasks): GoalDTO
+    {
+        $this->totalTasks = $totalTasks;
+        return $this;
     }
 
     /**

@@ -5,7 +5,7 @@
     <div id="message"></div>
 
     <form method="post" id="taskForm"
-          class="was-validated w-100 w-md-75 m-auto shadow-lg p-4 mt-5">
+          class="was-validated w-75 m-auto shadow-lg p-4 mt-5">
 
         <h2 class="text-center text-secondary fw-bold my-2">Create New Task.</h2>
 
@@ -21,7 +21,7 @@
         <div class="mb-3">
             <label for="description" class="form-label">Textarea</label>
             <textarea class="form-control is-invalid" id="description" name="description"
-                      placeholder="Required example textarea" rows="6"
+                      placeholder="Required example textarea"
                       required></textarea>
             <div class="invalid-feedback">
                 Please enter a message in the textarea.

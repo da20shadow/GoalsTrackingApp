@@ -24,7 +24,7 @@ class TaskHttpHandler extends BaseHttpHandler
 
         if (isset($formData['title']) && isset($formData['description'])
         && isset($formData['due_date'])){
-
+            //TODO to send task form with ajax
         }else {
             $this->render('task/_create_task');
         }

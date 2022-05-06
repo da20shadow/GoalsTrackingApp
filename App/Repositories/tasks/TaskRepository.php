@@ -23,7 +23,21 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function insert(TaskDTO $taskDTO): bool
     {
-        // TODO: Implement insert() method.
+        try {
+            $this->db->query(
+                "INSERT INTO tasks (task_title,task_description,due_date,goal_id,user_id)
+                        VALUES (:title,:description,:due_date,:goal_id,:user_id)"
+            )->execute(array(
+                ":title" => $taskDTO->getTaskTitle(),
+                ":description" => $taskDTO->getTaskDescription(),
+                ":due_date" => $taskDTO->getDueDate(),
+                ":goal_id" => $taskDTO->getGoalID(),
+                ":user_id" => $taskDTO->getUserID()
+            ));
+            return true;
+        }catch (\PDOException $exception){
+            return "Error Occur! " . $exception->getMessage();
+        }
     }
 
     public function update(int $id, TaskDTO $taskDTO): bool
@@ -45,7 +59,8 @@ class TaskRepository implements TaskRepositoryInterface
                             due_date AS dueDate,
                             progress,
                             completed,
-                            goal_id AS goalID
+                            goal_id AS goalID,
+                            total_subtasks AS totalSubtasks
                             FROM tasks
                             WHERE task_id = :task_id"
         )->execute(array(
@@ -62,7 +77,8 @@ class TaskRepository implements TaskRepositoryInterface
                     subtask_description AS subTaskDescription,
                     due_date AS dueDate,
                     progress,
-                    completed
+                    completed,
+                    total_subtasks AS totalSubtasks
                     FROM subtasks
                     WHERE task_id = :task_id"
         )->execute(array(

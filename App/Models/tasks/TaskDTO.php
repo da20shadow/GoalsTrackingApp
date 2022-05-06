@@ -11,18 +11,22 @@ class TaskDTO
     private int $progress;
     private int $completed;
     private int $goalID;
+    private int $userID;
+    private int $totalSubtasks;
 
     /**
      * @param $task_title
      * @param $task_description
      * @param $due_date
-     * @param $goal_id
+     * @param null $user_id
+     * @param int $totalSubtasks
+     * @param null $goal_id
      * @param int $progress
      * @param int $completed
      * @return TaskDTO
      */
-    public static function create($task_title, $task_description, $due_date, $goal_id,
-                                  int $progress = 0, int $completed = 0): TaskDTO
+    public static function create($task_title, $task_description, $due_date, $user_id = null,$totalSubtasks = 0,
+                                  $goal_id = null, int $progress = 0, int $completed = 0): TaskDTO
     {
 
         return (new TaskDTO())->setTaskTitle($task_title)
@@ -30,8 +34,46 @@ class TaskDTO
             ->setDueDate($due_date)
             ->setGoalID($goal_id)
             ->setProgress($progress)
-            ->setCompleted($completed);
+            ->setCompleted($completed)
+            ->setUserID($user_id)
+            ->setTotalSubtasks($totalSubtasks);
 
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalSubtasks(): int
+    {
+        return $this->totalSubtasks;
+    }
+
+    /**
+     * @param int $totalSubtasks
+     * @return TaskDTO
+     */
+    public function setTotalSubtasks(int $totalSubtasks): TaskDTO
+    {
+        $this->totalSubtasks = $totalSubtasks;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserID(): int
+    {
+        return $this->userID;
+    }
+
+    /**
+     * @param int $userID
+     * @return TaskDTO
+     */
+    public function setUserID(int $userID): TaskDTO
+    {
+        $this->userID = $userID;
+        return $this;
     }
 
     /**

@@ -35,7 +35,9 @@ class GoalsRepository implements GoalRepositoryInterface
                     due_date AS dueDate,
                     progress,
                     completed,
-                    user_id AS userID
+                    user_id AS userID,
+                    total_tasks AS totalTasks,
+                    created_on AS createdOn
                     FROM goals 
                     WHERE goal_id = :goal_id"
         )->execute(array(
@@ -53,10 +55,11 @@ class GoalsRepository implements GoalRepositoryInterface
                             due_date AS dueDate,
                             progress,
                             completed,
-                            goal_id AS goalID
+                            goal_id AS goalID,
+                            total_subtasks AS totalSubtasks
                     FROM tasks
                     WHERE goal_id = :goal_id 
-                      AND completed = 0"
+                      AND completed < 4"
         )->execute(array(
             ":goal_id" => $goal_id
         ))->fetch(TaskDTO::class);

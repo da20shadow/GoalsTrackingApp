@@ -11,6 +11,6 @@ $taskHttpHandler = new TaskHttpHandler();
 
 siteHeader("Create New Task");
 
-$taskHttpHandler->createTask();
+$taskHttpHandler->createTask($_POST);
 
 siteFooter("task/getTaskFormData","ajax/sendFormDataToPHP");

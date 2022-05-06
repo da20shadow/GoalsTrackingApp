@@ -6,8 +6,13 @@ use App\Service\goal\GoalServiceInterface;
 class GoalHttpHandler extends BaseHttpHandler
 {
 
-    public function create(GoalServiceInterface $goalService){
-        $this->render("goal/create_goal");
+    public function create(array $formData = []){
+        if (isset($formData['title']) && isset($formData['description'])
+            && isset($formData['due_date'])){
+            //TODO to send the goal form with ajax
+        }else {
+            $this->render("goal/create_goal");
+        }
     }
 
     public function all(GoalServiceInterface $goalService){

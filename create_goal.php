@@ -7,6 +7,6 @@ $goalHttpHandler = new \App\Http\goals\GoalHttpHandler();
 
 siteHeader("Create New Task");
 
-$goalHttpHandler->create($goalService);
+$goalHttpHandler->create($_POST);
 
 siteFooter("goal/getGoalFormData", "ajax/sendFormDataToPHP");
